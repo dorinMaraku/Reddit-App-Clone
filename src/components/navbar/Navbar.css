@@ -105,3 +105,8 @@
     color: white;
     box-shadow: none;
 }
+
+.login-link{
+    text-decoration: none;
+    color: inherit;
+}
