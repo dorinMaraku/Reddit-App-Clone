@@ -1,6 +1,6 @@
 import RedditIcon from '@mui/icons-material/Reddit';
 import SearchIcon from '@mui/icons-material/Search';
-import { getAuthCode } from '../../features/authorization/authorization';
+import {Link} from 'react-router-dom'
 import './Navbar.css'
 
 const Navbar = () => {
@@ -18,10 +18,10 @@ const Navbar = () => {
             </form>
         </div>
         <div className='login-btn-container'> 
-          <button onClick={() => {getAuthCode()}}
+          <button
             className='login-btn' 
-          >Log In</button>
-        </div>
+          ><Link to='/login' className='login-link'>Login</Link></button>
+        </div>  
     </nav>
   )
 }

@@ -8,6 +8,8 @@ const URI = import.meta.env.VITE_URI
 const DURATION = 'permanent'
 const SCOPE_STRING = 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread'//'"identity": {"description": "Access my reddit username and signup date.", "id": "identity", "name": "My Identity"}'
 
+
+// authenticates and generates the auth code required when generating access_token
 export const getAuthCode = () => {
   const accessUrl = `https://www.reddit.com/api/v1/authorize?client_id=${CLIENT_ID}&response_type=${TYPE}&state=${RANDOM_STRING}&redirect_uri=${URI}&duration=${DURATION}&scope=${SCOPE_STRING}`
   window.location = accessUrl
@@ -22,9 +24,9 @@ export const getToken = async () => {
   params.append('redirect_uri', URI);
 
   //console.log(authCode);
+  //send post request to the reddit api to generate access_token 
   try {
-    
-    let data = await axios.post('https://www.reddit.com/api/v1/access_token', 
+    let response = await axios.post('https://www.reddit.com/api/v1/access_token', 
     params.toString(), 
     {
       headers: {
@@ -32,17 +34,39 @@ export const getToken = async () => {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
     })
-    const body = await data.data
-    console.log(body)
-    // console.log(data)
-    data = await axios.get('https://oauth.reddit.com/api/v1/me', 
-      {headers: {'Authorization': 'bearer ' + body.access_token}})
-    const user = data;
+    console.log(response)
+    const data = await response.data
+    if (response.status == 200) {
+      const access_token = data.access_token
+      const refresh_token = data.refresh_token
+      localStorage.setItem('access_token', access_token)
+      localStorage.setItem('refresh_token', refresh_token)
+    }
+
+    console.log(data)
+
+    const refreshToken = localStorage.getItem('refresh_token')
+    const postParams = new URLSearchParams()
+    postParams.append('grant_type', 'refresh_token')
+    postParams.append('refresh_token', refreshToken) 
+
+    let freshResponse = await axios.post('https://www.reddit.com/api/v1/access_token', 
+    postParams.toString(), 
+    {
+      headers: {
+        Authorization: `Basic ${window.btoa(`${CLIENT_ID}:${import.meta.env.VITE_CLIENT_SECRET}`)}`,
+        "Content-Type": 'application/x-www-form-urlencoded'
+      }
+    })
+    const newData = freshResponse
+    console.log(newData)
+
+    const userData = await axios.get('https://oauth.reddit.com/api/v1/me', 
+      {headers: {'Authorization': 'bearer ' + access_token}})
+    const user = userData;
     console.log(user)
-    //await signInUser(user.id, user.name, body.access_token, body.refresh_token)
-    let token = await user.signJWT(user.id)
-    console.log(token)
-    return token
+    
+    
   }
   catch (err) {
     console.log(err)  
