@@ -7,9 +7,10 @@ const RANDOM_STRING = 'authorized'
 const URI = import.meta.env.VITE_URI
 const DURATION = 'permanent'
 const SCOPE_STRING = 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread'//'"identity": {"description": "Access my reddit username and signup date.", "id": "identity", "name": "My Identity"}'
+let access_token;
+let refresh_token;
+let expires_in;
 
-
-// authenticates and generates the auth code required when generating access_token
 export const getAuthCode = () => {
   const accessUrl = `https://www.reddit.com/api/v1/authorize?client_id=${CLIENT_ID}&response_type=${TYPE}&state=${RANDOM_STRING}&redirect_uri=${URI}&duration=${DURATION}&scope=${SCOPE_STRING}`
   window.location = accessUrl
@@ -24,7 +25,6 @@ export const getToken = async () => {
   params.append('redirect_uri', URI);
 
   //console.log(authCode);
-  //send post request to the reddit api to generate access_token 
   try {
     let response = await axios.post('https://www.reddit.com/api/v1/access_token', 
     params.toString(), 
@@ -34,41 +34,70 @@ export const getToken = async () => {
         "Content-Type": 'application/x-www-form-urlencoded'
       }
     })
-    console.log(response)
-    const data = await response.data
-    if (response.status == 200) {
-      const access_token = data.access_token
-      const refresh_token = data.refresh_token
-      localStorage.setItem('access_token', access_token)
-      localStorage.setItem('refresh_token', refresh_token)
+    const body = await response.data
+
+    console.log(body)
+    access_token = body.access_token
+    refresh_token = body.refresh_token
+    expires_in = body.expires_in
+
+    if(!access_token) {
+      console.error('Access token is missing');
+      return null;
     }
-
-    console.log(data)
-
-    const refreshToken = localStorage.getItem('refresh_token')
-    const postParams = new URLSearchParams()
-    postParams.append('grant_type', 'refresh_token')
-    postParams.append('refresh_token', refreshToken) 
-
-    let freshResponse = await axios.post('https://www.reddit.com/api/v1/access_token', 
-    postParams.toString(), 
-    {
-      headers: {
-        Authorization: `Basic ${window.btoa(`${CLIENT_ID}:${import.meta.env.VITE_CLIENT_SECRET}`)}`,
-        "Content-Type": 'application/x-www-form-urlencoded'
+    const tokenExpiration = new Date(expires_in).toUTCString()
+    const now = new Date().toUTCString()
+    if (now >= tokenExpiration) {
+      console.log('Access token has expired. Refreshing...');
+      const refreshedToken = await refreshTokenAngGetNewAccessToken();
+      if (refreshedToken) {
+        return refreshedToken;
+      } else { 
+        console.error('Failed to refresh token');
+        return null;
       }
-    })
-    const newData = freshResponse
-    console.log(newData)
-
-    const userData = await axios.get('https://oauth.reddit.com/api/v1/me', 
-      {headers: {'Authorization': 'bearer ' + access_token}})
-    const user = userData;
-    console.log(user)
-    
-    
+    }
+    else {
+      return access_token
+    }
   }
   catch (err) {
     console.log(err)  
   }
 }
+
+  const refreshTokenAngGetNewAccessToken = async () => {
+    if (!refresh_token) {
+      console.error('refresh token is missing')
+      return null;
+    }
+
+    //use refresh_token to obtain new access token
+    try {
+      const newParams = new URLSearchParams();
+      newParams.append('grant_type', 'refresh_token');
+      newParams.append('refresh_token', refresh_token);
+      const response = await axios.post('https://www.reddit.com/api/v1/access_token', 
+      newParams.toString(), 
+      {
+        headers: {
+          Authorization: `Basic ${window.btoa(`${CLIENT_ID}:${import.meta.env.VITE_CLIENT_SECRET}`)}`,
+          "Content-Type": 'application/x-www-form-urlencoded'
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        access_token = data.access_token;
+      }
+      //update experies_in 
+    } 
+    catch (error) {
+      console.error('Error refreshing access token', error)
+    }
+  }
+
+
+// const data = await axios.get('https://oauth.reddit.com/api/v1/me', 
+//   {headers: {'Authorization': 'bearer ' + body.access_token}})
+// const user = data;
+// console.log(user)
