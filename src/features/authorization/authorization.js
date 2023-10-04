@@ -111,7 +111,8 @@ const refreshTokenAngGetNewAccessToken = async () => {
 
 //get user info
 export const getUserInfo = async () => {
-  const retrieveToken = await getToken();
+  getAuthCode()
+  await getToken();
   if (!accessToken) {
     console.error('Access token is missing or expired')
     return;
