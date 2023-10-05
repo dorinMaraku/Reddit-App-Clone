@@ -1,0 +1,57 @@
+.post{
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 1rem;
+}
+
+.post a {
+    text-decoration: none;
+    color: var(--fontGrey);
+}
+
+.post--left{
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.post--left > .arrow {
+    font-size: x-large;
+    color: var(--darkGrey);
+}
+
+.post > div {
+    margin-right: 20px;
+}
+
+.post--center > img {
+    height: 60px;
+    border-radius: 5px;
+}
+
+.post--right{
+    width: 85%;
+}
+
+
+.post--right > h3 a {
+    font-weight: 500;
+    font-size: medium;
+    color: var(--fontGrey);
+    padding: 5px 0; 
+}
+
+.post--right > .post--info {
+    font-size: smaller;
+    color: var(--darkGrey);
+}
+
+.post--right > * {
+    margin-bottom: 2px;
+}
+
+.post--info {
+    margin-top: 4px;
+}
