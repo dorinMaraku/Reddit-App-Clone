@@ -2,9 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto';
+  font-family: var(--jakFont);
 }
 
 body{
-  background: rgb(128, 128, 128, 0.2);
+  background: var(--lightGrey);
 }

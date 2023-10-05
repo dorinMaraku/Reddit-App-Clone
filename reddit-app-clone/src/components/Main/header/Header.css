@@ -1,0 +1,69 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0 2.5rem
+}
+
+.header a {
+    text-decoration: none ;
+}
+.header--left {
+    font-size: var(1rem +0.5vw);
+}
+
+.header--left ul {
+    display: flex;
+    align-items: center;
+}
+
+.header--left li a{
+    padding: 10px;
+    margin: 10px;
+    color: var(--fontGrey);
+}
+
+.header--left a.active {
+    color: var(--orange);
+    border-bottom: 2px solid var(--orange);
+}
+
+.header--right{
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    font-size: small;
+}
+
+.header--right * {
+    margin-left: 10px;
+}
+
+/* .header--right > img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+} */
+
+.header--right > .icon {
+    font-size: large;
+    color: var(--black);
+    position: relative;
+}
+
+.header--right > .icon--message--counter{
+    position: relative;
+    right: 5%;
+    color: white;
+    background-color: var(--orange);
+    font-size: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0;
+    text-align: center;
+}
+
+.header--right > .header--user > span {
+    margin-right: 10px;
+}
