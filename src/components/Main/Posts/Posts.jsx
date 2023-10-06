@@ -13,7 +13,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 321,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',
@@ -21,7 +21,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 558,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',
@@ -29,7 +29,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 546,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',
@@ -37,7 +37,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 555,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',
@@ -45,7 +45,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 964,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',
@@ -53,7 +53,7 @@ const Posts = () => {
             comment_count: 284,
         },
         {
-            upvote: 547,
+            upvote: 123,
             image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Questions about my portfolio',
             user: 'theindepenedentonline',

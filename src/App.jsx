@@ -16,10 +16,10 @@ function App() {
     <div className='container'>
       <SidebarNav />
       <Main /> 
-      <Routes>
-        <Route path='/login' element={<Login />} />
+      {/* <Routes> */}
+        {/* <Route path='/login' element={<Login />} /> */}
         {/* <Route path='/' element={<Home />}/> */}
-      </Routes>
+      {/* </Routes> */}
       {/* <FeedList /> */}
     </div>
     </>
