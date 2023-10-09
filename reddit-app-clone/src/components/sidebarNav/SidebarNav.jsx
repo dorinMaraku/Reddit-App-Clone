@@ -1,8 +1,17 @@
 import { FiSearch }  from 'react-icons/fi'
 import { FaRedditAlien } from 'react-icons/fa6'
 import './SidebarNav.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllSubredits } from '../../features/subreddits/subredditsSlice'
 
 const SidebarNav = () => {
+
+    const subreddits = useSelector(getAllSubredits)
+    const renderedSubreddits = subreddits.map(subreddit => {
+        return (
+            <li key={subreddit.id}><a href={subreddit.url} >{subreddit.name}</a></li>
+        )
+    })
     const menus = [
         {
             to: '/r/popular',
@@ -18,27 +27,6 @@ const SidebarNav = () => {
         }
     ]
 
-    const subreddits= [
-        'askereddit',
-        'worldnews',
-        'videos',
-        'funny',
-        'todaylearned',
-        'price',
-        'gaming',
-        'movies',
-        'news',
-        'gifs',
-        'aww',
-        'mildyinteresting',
-        'showrthoughts',
-        'television',
-        'jokes',
-        'science',
-        'soccer',
-        'interenetisbeatutiful',
-        'dataisbeautiful',
-    ]
   return (
     <div className='sidenav'>
         <div className='sidenav--logo'>
@@ -59,11 +47,7 @@ const SidebarNav = () => {
             </ul>
             <hr/>
             <ul className='sidenav--subreddit'>
-                {subreddits.map(subreddit => {
-                    return (
-                        <li key={subreddit}><a href={`/r/${subreddit}`} >{subreddit}</a></li>
-                    )
-                })}
+                {renderedSubreddits}
             </ul>
         </div>
     </div>
