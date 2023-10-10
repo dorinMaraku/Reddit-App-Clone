@@ -3,31 +3,31 @@ import './PostItem.css'
 import {useDispatch, useSelector} from 'react-redux'
 // import { increment, decrement } from '../../../../features/counter/counterSlice'
 
-
+// image = preview.images[0].resolutions[0].url
 const PostItem = (props) => {
-    const {upvote, image, title, user, subreddit, comment_count} = props.post
+    const {score,url,thumbnail, title, author, subreddit, num_comments} = props.post
     const dispatch = useDispatch();
-
+    // console.log(props.post)
   return (
     <div className='post'>
         <div className='post--left'>
-            <BiSolidUpArrow className='arrow arrow-up' />
-            <span>{upvote}</span>
+            <BiSolidUpArrow className='arrow arrow-up'/>
+            <span>{score}</span>
             <BiSolidDownArrow className='arrow arrow-down' />
         </div>
         <div className='post--center'>
-            <img src={image} alt="" />
+            <img src={url} alt="" />
         </div>
         <div className='post--right'>
             <h3><a href={`/r/${subreddit}/${title}`}>{title}</a></h3>
             <span className='post--info'>
                 submitted an hour ago by 
-                {' '}<a href={`/u/${user}`}>{user}</a>{' '}
+                {' '}<a href={`/u/${author}`}>{author}</a>{' '}
                 to 
                 {' '}<a href={`/r/${subreddit}`}>{subreddit}</a>{' '}
             </span>
             <p className='post--info'>
-                {comment_count} comments | share | save | hide | report
+                {num_comments} comments | share | save | hide | report
             </p>
         </div>
     </div>

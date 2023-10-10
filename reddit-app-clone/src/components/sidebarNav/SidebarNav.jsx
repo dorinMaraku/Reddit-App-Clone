@@ -2,14 +2,26 @@ import { FiSearch }  from 'react-icons/fi'
 import { FaRedditAlien } from 'react-icons/fa6'
 import './SidebarNav.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllSubredits } from '../../features/subreddits/subredditsSlice'
+import { getAllSubredits, getSubreditsStatus, getSubreditsError, fetchSubreddits } from '../../features/subreddits/subredditsSlice'
+import { useEffect } from 'react'
+
 
 const SidebarNav = () => {
-
+    const dispatch = useDispatch()
     const subreddits = useSelector(getAllSubredits)
-    const renderedSubreddits = subreddits.map(subreddit => {
+    const subredditsStatus = useSelector(getSubreditsStatus)
+    const error = useSelector(getSubreditsError)
+
+    useEffect(() => {
+        if (subredditsStatus === 'idle'){
+            dispatch(fetchSubreddits())
+        }
+    }, [subredditsStatus, dispatch])
+
+    // console.log(subreddits)
+    const renderedSubreddits = subreddits.map(subreddit => { 
         return (
-            <li key={subreddit.id}><a href={subreddit.url} >{subreddit.name}</a></li>
+            <li key={subreddit.data.id}><a href={subreddit.data.url} >{subreddit.data.display_name}</a></li>
         )
     })
     const menus = [
