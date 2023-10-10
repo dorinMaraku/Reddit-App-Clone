@@ -1,70 +1,26 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const initialState = [
-    {   
-        id: nanoid(),
-        upvote: 547,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 321,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 558,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 546,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 555,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 964,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-    {
-        id: nanoid(),
-        upvote: 123,
-        image:  'https://images.pexels.com/photos/147411/italy-mountains-dawn-daybreak-147411.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        title: 'Questions about my portfolio',
-        user: 'theindepenedentonline',
-        subreddit: 'politics',
-        comment_count: 284,
-    },
-]
+
+const API_ROOT = 'https://www.reddit.com'
+
+
+const initialState = {
+    posts: [],
+    status: 'idle', // 'loading' | 'succeeded' | 'failed'
+    error: null
+}
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditUrl) => {
+    try {
+        const response = await fetch(`${API_ROOT}${subredditUrl}.json`)
+        .then(response => response.json());
+        // console.log(response.data.children)
+        return response.data.children
+    } catch (error) {
+        return error.message
+    }
+})
 
 export const postSlice = createSlice({
     name: 'posts',
@@ -73,10 +29,25 @@ export const postSlice = createSlice({
         postAdded: (state, action) => {
             state.unshift(action.payload)
         }
-
+    },
+    extraReducers: (builder) => {
+        builder
+        .addCase(fetchPosts.pending, (state, action) => {
+            state.status = 'loading'
+        })
+        .addCase(fetchPosts.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.posts = action.payload
+        })
+        .addCase(fetchPosts.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
     }
 })
 
 export const { postAdded } = postSlice.actions 
-export const selectAllPosts = state => state.posts
+export const getAllPosts = state => state.posts.posts
+export const getPostsStatus = state => state.posts.status
+export const getPostsError = state => state.posts.error
 export default postSlice.reducer

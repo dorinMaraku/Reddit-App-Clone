@@ -1,147 +1,49 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = [
-    {
-        id: nanoid(),
-        url: '/r/popular',
-        title: 'Popular',
-        name: 'popular'
-    },
-    {
-        id: nanoid(),
-        url: '/r/all',
-        title: 'All',
-        name: 'all'
-    },
-    {
-        id: nanoid(),
-        url: '/r/random',
-        title: 'Random',
-        name: 'random' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/askereddit',
-        title: 'Askereddit',
-        name: 'askereddit' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/worldnews',
-        title: 'Worldnews',
-        name: 'worldnews' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/videos',
-        title: 'Videos',
-        name: 'videos' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/funny',
-        title: 'funny',
-        name: 'funny' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/todaylearned',
-        title: 'todaylearned',
-        name: 'todaylearned' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/price',
-        title: 'price',
-        name: 'price' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/gaming',
-        title: 'gaming',
-        name: 'gaming' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/movies',
-        title: 'movies',
-        name: 'movies' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/news',
-        title: 'news',
-        name: 'news' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/gifs',
-        title: 'gifs',
-        name: 'gifs' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/aww',
-        title: 'aww',
-        name: 'aww' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/mildyinteresting',
-        title: 'mildyinteresting',
-        name: 'mildyinteresting' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/showrthoughts',
-        title: 'showrthoughts',
-        name: 'showrthoughts' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/television',
-        title: 'television',
-        name: 'television' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/jokes',
-        title: 'jokes',
-        name: 'jokes' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/science',
-        title: 'science',
-        name: 'science' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/soccer',
-        title: 'soccer',
-        name: 'soccer' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/interenetisbeatutiful',
-        title: 'interenetisbeatutiful',
-        name: 'interenetisbeatutiful' 
-    },
-    {
-        id: nanoid(),
-        url: '/r/dataisbeautiful',
-        title: 'dataisbeautiful',
-        name: 'dataisbeautiful' 
-    },
-]
+const API_ROOT = 'https://www.reddit.com'
+
+export const fetchSubreddits = createAsyncThunk('subreddits/fetchSubreddits', async () => {
+    try {
+        const response = await fetch(`${API_ROOT}/subreddits.json`)
+        .then(response => response.json());
+        // console.log(response.data.children)
+        return response.data.children;
+    } catch (error) {
+      return error.message
+    }
+})
+
+const initialState = {
+    subreddits: [],
+    status: 'idle', // 'loading' | 'succeeded' | 'failed'
+    error: null
+}
 
 export const subredditsSlice = createSlice({
     name: 'subreddits',
     initialState,
     reducers: {
         
+    },
+    extraReducers: (builder) => {
+        builder
+        .addCase(fetchSubreddits.pending, (state, action) => {
+            state.status = 'loading'
+        })
+        .addCase(fetchSubreddits.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            // console.log(action.payload) 
+            state.subreddits = action.payload
+        })
+        .addCase(fetchSubreddits.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message 
+        })
     }
 })
 
-export const getAllSubredits = state => state.subreddits
+export const getAllSubredits = state => state.subreddits.subreddits
+export const getSubreditsStatus = state => state.subreddits.status
+export const getSubreditsError = state => state.subreddits.error
 export default subredditsSlice.reducer
