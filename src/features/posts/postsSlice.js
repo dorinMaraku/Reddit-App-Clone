@@ -8,7 +8,9 @@ const API_ROOT = 'https://www.reddit.com'
 const initialState = {
     posts: [],
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
-    error: null
+    error: null,
+    searchTerm: '',
+    subredditUrl: '/r/All'
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditUrl) => {
@@ -16,7 +18,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditU
         const response = await fetch(`${API_ROOT}${subredditUrl}.json`)
         .then(response => response.json());
         // console.log(response.data.children)
-        return response.data.children
+        return response.data.children.map(post => post.data)
     } catch (error) {
         return error.message
     }
@@ -28,6 +30,9 @@ export const postSlice = createSlice({
     reducers: {
         postAdded: (state, action) => {
             state.unshift(action.payload)
+        },
+        getSubredditUrl: (state, action) => {
+            console.log(satte)
         }
     },
     extraReducers: (builder) => {
@@ -46,8 +51,9 @@ export const postSlice = createSlice({
     }
 })
 
-export const { postAdded } = postSlice.actions 
+export const { postAdded, getSubredditUrl } = postSlice.actions 
 export const getAllPosts = state => state.posts.posts
 export const getPostsStatus = state => state.posts.status
-export const getPostsError = state => state.posts.error
+export const getPostsError = state => state.posts.error 
+
 export default postSlice.reducer

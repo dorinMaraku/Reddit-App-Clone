@@ -3,7 +3,7 @@ import { FaRedditAlien } from 'react-icons/fa6'
 import './SidebarNav.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllSubredits, getSubreditsStatus, getSubreditsError, fetchSubreddits } from '../../features/subreddits/subredditsSlice'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const SidebarNav = () => {
@@ -11,6 +11,7 @@ const SidebarNav = () => {
     const subreddits = useSelector(getAllSubredits)
     const subredditsStatus = useSelector(getSubreditsStatus)
     const error = useSelector(getSubreditsError)
+    const [searchTerm, setSearchTerm] = useState('') 
 
     useEffect(() => {
         if (subredditsStatus === 'idle'){
@@ -18,12 +19,30 @@ const SidebarNav = () => {
         }
     }, [subredditsStatus, dispatch])
 
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value)
+    }
     // console.log(subreddits)
-    const renderedSubreddits = subreddits.map(subreddit => { 
-        return (
-            <li key={subreddit.data.id}><a href={subreddit.data.url} >{subreddit.data.display_name}</a></li>
-        )
-    })
+    let renderedSubreddits;
+    if (subredditsStatus === 'loading') {
+        renderedSubreddits = <p>Loading...</p>
+    } else if (subredditsStatus === 'succeeded') {
+        renderedSubreddits = subreddits.map(subreddit => { 
+            return (
+                <li key={subreddit.id}>
+                    <img 
+                        src={subreddit.icon_img} 
+                        className='subreddit--icon--image' 
+                        alt='reddit icon image'
+                        style={{border: `2px solid ${subreddit.primary_color}` }}/>
+                    <a href={subreddit.url} >{subreddit.display_name}</a>
+                </li>
+            )
+        })
+    } else if (subredditsStatus === 'failed') {
+        renderedSubreddits = <p>{error}</p>
+    }
+
     const menus = [
         {
             to: '/r/popular',
@@ -38,6 +57,11 @@ const SidebarNav = () => {
             text: 'Random' 
         }
     ]
+    const renderedMenu = menus.map(menu => {
+        return (
+        <li key={menu.to}><a href={menu.to}>{menu.text}</a></li>
+        )
+    })
 
   return (
     <div className='sidenav'>
@@ -46,16 +70,17 @@ const SidebarNav = () => {
             <h1 className='sidenav--logo--text' >reddit<span className='sidenav--span-text'>Clone</span></h1>
         </div>
         <div className='sidenav--search'>
-            <input id='serachbar' className='sidenav--search--input' type='text' placeholder='Search Reddit...' />
+            <input 
+                id='searchbar' 
+                className='sidenav--search--input' 
+                type='text' 
+                placeholder='Search Reddit...' 
+                onChange={handleChange}/>
             <FiSearch className='sidenav--search--btn' />
         </div>
         <div className='sidenav--links'>
             <ul className='sidenav--menu'> 
-                {menus.map(menu => {
-                    return (
-                    <li key={menu.to}><a href={menu.to}>{menu.text}</a></li>
-                    )
-                })}
+                {renderedMenu}
             </ul>
             <hr/>
             <ul className='sidenav--subreddit'>
