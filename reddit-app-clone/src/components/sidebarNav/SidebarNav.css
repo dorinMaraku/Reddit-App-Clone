@@ -59,6 +59,18 @@
     padding: 10px 15px;
 }
 
+.sidenav--subreddit > li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subreddit--icon--image{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
 .sidenav hr{
     margin: 2rem 0;
     border: 1px solid var(--lightGrey);

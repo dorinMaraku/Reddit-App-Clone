@@ -10,11 +10,13 @@ const Posts = () => {
     const posts = useSelector(getAllPosts)
     const postsStatus = useSelector(getPostsStatus)
     const error = useSelector(getPostsError)
+
+
     useEffect(() => {
       if (postsStatus === 'idle') {
-        dispatch(fetchPosts('/r/popular/'))
+        dispatch(fetchPosts('/r/all/'))
       }
-    },[dispatch, ])
+    },[dispatch, postsStatus])
     // console.log(posts)
 
     let renderedPosts;
@@ -23,7 +25,7 @@ const Posts = () => {
     } else if (postsStatus === 'succeeded') {
       renderedPosts = posts.map(post => {
         return (
-          <PostItem key={post.data.id} post={post.data}/>
+          <PostItem key={post.id} post={post}/>
         )
       })
     } else if (postsStatus === 'failed') {

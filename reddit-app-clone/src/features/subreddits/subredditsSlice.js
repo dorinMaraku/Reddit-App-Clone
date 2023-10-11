@@ -8,7 +8,7 @@ export const fetchSubreddits = createAsyncThunk('subreddits/fetchSubreddits', as
         const response = await fetch(`${API_ROOT}/subreddits.json`)
         .then(response => response.json());
         // console.log(response.data.children)
-        return response.data.children;
+        return response.data.children.map(subreddit => subreddit.data);
     } catch (error) {
       return error.message
     }
@@ -24,7 +24,7 @@ export const subredditsSlice = createSlice({
     name: 'subreddits',
     initialState,
     reducers: {
-        
+
     },
     extraReducers: (builder) => {
         builder
