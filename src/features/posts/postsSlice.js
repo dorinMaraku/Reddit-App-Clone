@@ -32,7 +32,7 @@ export const postSlice = createSlice({
             state.unshift(action.payload)
         },
         getSubredditUrl: (state, action) => {
-            console.log(satte)
+            state.subredditUrl = action.payload;
         }
     },
     extraReducers: (builder) => {

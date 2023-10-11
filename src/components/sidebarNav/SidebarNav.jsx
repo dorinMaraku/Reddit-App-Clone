@@ -22,6 +22,7 @@ const SidebarNav = () => {
     const handleChange = (e) => {
         setSearchTerm(e.target.value)
     }
+
     // console.log(subreddits)
     let renderedSubreddits;
     if (subredditsStatus === 'loading') {
@@ -35,13 +36,15 @@ const SidebarNav = () => {
                         className='subreddit--icon--image' 
                         alt='reddit icon image'
                         style={{border: `2px solid ${subreddit.primary_color}` }}/>
-                    <a href={subreddit.url} >{subreddit.display_name}</a>
+                    <a href={subreddit.url}>{subreddit.display_name}</a>
                 </li>
             )
         })
     } else if (subredditsStatus === 'failed') {
         renderedSubreddits = <p>{error}</p>
     }
+
+ 
 
     const menus = [
         {

@@ -10,11 +10,10 @@ const Posts = () => {
     const posts = useSelector(getAllPosts)
     const postsStatus = useSelector(getPostsStatus)
     const error = useSelector(getPostsError)
-
-
+    
     useEffect(() => {
       if (postsStatus === 'idle') {
-        dispatch(fetchPosts('/r/all/'))
+        dispatch(fetchPosts(window.location.pathname))
       }
     },[dispatch, postsStatus])
     // console.log(posts)
