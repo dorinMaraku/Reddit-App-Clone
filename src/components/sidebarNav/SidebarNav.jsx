@@ -23,6 +23,13 @@ const SidebarNav = () => {
         setSearchTerm(e.target.value)
     }
 
+    const filteredItems = subreddits.filter(subreddit => {
+        if (searchTerm === '') {
+            return 
+        }
+        return subreddit.display_name.toLowerCase().includes(searchTerm.toLowerCase())
+    })
+    // console.log(filteredItems.map(reddit => reddit.display_name))
     // console.log(subreddits)
     let renderedSubreddits;
     if (subredditsStatus === 'loading') {

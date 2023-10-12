@@ -1,6 +1,5 @@
 .posts {
-    background-color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    box-shadow: -1px 0px 5px 5px var(--lightGrey);
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
 }

@@ -1,5 +1,6 @@
 .main{
-    flex: 1;
+    flex: 3;
     background-color: var(--lightAsh);
     padding: 10px 40px;
+    align-items: center;
 }
