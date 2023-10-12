@@ -1,7 +1,8 @@
 .sidenav{
-    max-width: 25%;
+    flex: 1;
     font-size: small;
-    box-shadow: 2px 0 1px 1px var(--lightAsh);
+    background-color: white;
+    box-shadow: 2px 0px 1px 1px var(--lightGrey);
 }
 
 .sidenav--logo{
@@ -20,7 +21,7 @@
     color: white;
     background-color: var(--orange);
 }
-.sidenav--logo > .sidenav--logo--text{
+.sidenav--logo > .sidenav--logo--text{  
     font-weight: 400;
     color: var(--darkGrey);
 }
@@ -30,12 +31,13 @@
 
 .sidenav--search{
     display: flex;
-    justify-content: center;
     align-items: center;
     margin: 2rem 0;
+    width: 100%;
 }
 .sidenav--search > .sidenav--search--input{
-    padding: 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px 30px;
     border: 1px solid var(--lightGrey);
     box-shadow: 0px 1px 0px 1px var(--lightGrey);
     border-radius: 0px 50px 50px 0px;
@@ -44,6 +46,7 @@
 }
 .sidenav--search > .sidenav--search--btn{
     position: relative;
+    margin: 0;
     right: 30px;
     color: var(--orange);
     font-size: 20px;

@@ -8,11 +8,12 @@ const Header = () => {
     <header className="header">
         <div className="header--left">
             <ul>
-                <li><a href="/r/popular" className='active'>Popular</a></li>
-                <li><a href="/r/hot">Hot</a></li>
-                <li><a href="/r/rising">Rising</a></li>
-                <li><a href="/r/controversial">Controversial</a></li>
-                <li><a href="/r/guilded">Guilded</a></li>
+                <li><a href={`${window.location.pathname}/best`} className='active'>Best</a></li>
+                <li><a href={`${window.location.pathname}/hot`}>Hot</a></li>
+                <li><a href={`${window.location.pathname}/rising`}>Rising</a></li>
+                <li><a href={`${window.location.pathname}/new`}>New</a></li>
+                <li><a href={`${window.location.pathname}/top`}>Top</a></li>
+                <li><a href={`${window.location.pathname}/today`}>Today</a></li>
             </ul>
         </div>
         <div className="header--right">
