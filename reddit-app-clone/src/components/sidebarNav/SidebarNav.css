@@ -62,6 +62,12 @@
     padding: 10px 15px;
 }
 
+.sidenav--links h2{
+    padding: 10px 15px;
+    color: var(--fontGrey);
+    letter-spacing: 1px;
+}
+
 .sidenav--subreddit > li{
     display: flex;
     align-items: center;

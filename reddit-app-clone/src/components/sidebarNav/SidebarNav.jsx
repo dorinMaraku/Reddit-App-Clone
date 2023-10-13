@@ -3,6 +3,7 @@ import { FaRedditAlien } from 'react-icons/fa6'
 import './SidebarNav.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllSubredits, getSubreditsStatus, getSubreditsError, fetchSubreddits } from '../../features/subreddits/subredditsSlice'
+import { getSubredditUrl, setSubredditUrl } from '../../features/posts/postsSlice'
 import { useState, useEffect } from 'react'
 
 
@@ -11,6 +12,7 @@ const SidebarNav = () => {
     const subreddits = useSelector(getAllSubredits)
     const subredditsStatus = useSelector(getSubreditsStatus)
     const error = useSelector(getSubreditsError)
+    const selectedSubredditUrl = useSelector(getSubredditUrl)
     const [searchTerm, setSearchTerm] = useState('') 
 
     useEffect(() => {
@@ -19,6 +21,8 @@ const SidebarNav = () => {
         }
     }, [subredditsStatus, dispatch])
 
+
+    
     const handleChange = (e) => {
         setSearchTerm(e.target.value)
     }
@@ -37,21 +41,23 @@ const SidebarNav = () => {
     } else if (subredditsStatus === 'succeeded') {
         renderedSubreddits = subreddits.map(subreddit => { 
             return (
-                <li key={subreddit.id}>
+                <li key={subreddit.id}
+                    onClick={() => dispatch(setSubredditUrl(subreddit.url))}>
                     <img 
                         src={subreddit.icon_img} 
                         className='subreddit--icon--image' 
                         alt='reddit icon image'
-                        style={{border: `2px solid ${subreddit.primary_color}` }}/>
-                    <a href={subreddit.url}>{subreddit.display_name}</a>
+                        style={{border: `3px solid ${subreddit.primary_color}` }}/>
+                    <a href={subreddit.url}><p>{subreddit.display_name}</p></a>
                 </li>
             )
         })
     } else if (subredditsStatus === 'failed') {
         renderedSubreddits = <p>{error}</p>
     }
-
- 
+    
+    
+    console.log(selectedSubredditUrl)
 
     const menus = [
         {
@@ -79,7 +85,7 @@ const SidebarNav = () => {
             <FaRedditAlien className='sidenav--reddit--icon'/>
             <h1 className='sidenav--logo--text' >reddit<span className='sidenav--span-text'>Clone</span></h1>
         </div>
-        <div className='sidenav--search'>
+        <form className='sidenav--search'>
             <input 
                 id='searchbar' 
                 className='sidenav--search--input' 
@@ -87,12 +93,13 @@ const SidebarNav = () => {
                 placeholder='Search Reddit...' 
                 onChange={handleChange}/>
             <FiSearch className='sidenav--search--btn' />
-        </div>
+        </form>
         <div className='sidenav--links'>
             <ul className='sidenav--menu'> 
                 {renderedMenu}
             </ul>
             <hr/>
+            <h2>Subreddits</h2>
             <ul className='sidenav--subreddit'>
                 {renderedSubreddits}
             </ul>
