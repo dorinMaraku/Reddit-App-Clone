@@ -17,14 +17,20 @@ export const fetchSubreddits = createAsyncThunk('subreddits/fetchSubreddits', as
 const initialState = {
     subreddits: [],
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
-    error: null
+    error: null,
 }
 
 export const subredditsSlice = createSlice({
     name: 'subreddits',
     initialState,
     reducers: {
-
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload
+        },
+        getSubredditUrl: (state, action) => {
+            state.subredditUrl = action.payload;
+            state.searchTerm = ''
+        }
     },
     extraReducers: (builder) => {
         builder

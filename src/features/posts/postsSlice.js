@@ -10,7 +10,7 @@ const initialState = {
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
     error: null,
     searchTerm: '',
-    subredditUrl: '/r/All'
+    subredditUrl: '/r/home'
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditUrl) => {
@@ -28,11 +28,13 @@ export const postSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        postAdded: (state, action) => {
-            state.unshift(action.payload)
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload
         },
-        getSubredditUrl: (state, action) => {
+        setSubredditUrl: (state, action) => {
             state.subredditUrl = action.payload;
+            console.log(action.payload)
+            state.searchTerm = ''
         }
     },
     extraReducers: (builder) => {
@@ -51,7 +53,8 @@ export const postSlice = createSlice({
     }
 })
 
-export const { postAdded, getSubredditUrl } = postSlice.actions 
+export const { setSearchTerm, setSubredditUrl } = postSlice.actions 
+export const getSubredditUrl = state => state.posts.subredditUrl
 export const getAllPosts = state => state.posts.posts
 export const getPostsStatus = state => state.posts.status
 export const getPostsError = state => state.posts.error 
