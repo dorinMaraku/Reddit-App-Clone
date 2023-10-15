@@ -10,7 +10,7 @@ const initialState = {
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
     error: null,
     searchTerm: '',
-    subredditUrl: '/r/home'
+    subredditUrl: '/r/home',
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditUrl) => {
@@ -24,17 +24,33 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditU
     }
 })
 
+export const fetchComments = createAsyncThunk('posts/fetchComments', async (permalink) => {
+    try {
+        const response = await fetch(`${API_ROOT}${permalink}.json`)
+        .then(response => response.json())
+        // console.log(response[1].data.children.map(comment => comment.data))
+        return response[1].data.children.map(comment => comment.data)
+    } catch (error) {
+        return error.message
+    }
+})
+
 export const postSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        setSearchTerm: (state, action) => {
-            state.searchTerm = action.payload
-        },
         setSubredditUrl: (state, action) => {
             state.subredditUrl = action.payload;
-            console.log(action.payload)
-            state.searchTerm = ''
+            // console.log(action.payload)
+            state.status = 'idle'
+        },
+        setCommentsTogle: (state, action) => {
+            state.posts.filter(post => {
+                if (post.id === action.payload) {
+                    post.showingComments = !post.showingComments
+                }
+                // console.log(post.showingComments)
+            })
         }
     },
     extraReducers: (builder) => {
@@ -44,17 +60,54 @@ export const postSlice = createSlice({
         })
         .addCase(fetchPosts.fulfilled, (state, action) => {
             state.status = 'succeeded'
-            state.posts = action.payload
+            state.posts = action.payload.map(post => ({
+                ...post,
+                showingComments: false,
+                comments: [],
+                status: 'idle', // 'loading' | 'succeeded' | 'failed'
+                errorComments: null,
+            }))
         })
         .addCase(fetchPosts.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         })
+        .addCase(fetchComments.pending, (state, action) => {
+            state.posts.filter(post => {
+                if(!post.showingComments) {
+                    return
+                } else {
+                    post.status = 'loading';
+                    // console.log(post.showingComments, post.status, 'post is loading')
+                }
+            })
+        })
+        .addCase(fetchComments.fulfilled, (state, action) => {
+            state.posts.filter(post => {
+                if(!post.showingComments) {
+                    return
+                } else {
+                    post.status = 'succeeded';
+                    post.comments = action.payload
+                }
+                // console.log(post.comments, post.status)
+            })
+        })
+        .addCase(fetchComments.rejected, (state, action) => {
+            state.posts.filter(post => {
+                if (post.showingComments) {
+                    post.status = 'failed';
+                    post.errorComments = action.error.message;
+                }
+                // console.log(post.errorComments, post.status, 'smth went wrong')
+            })
+        })
     }
 })
 
-export const { setSearchTerm, setSubredditUrl } = postSlice.actions 
+export const { setCommentsTogle, setSubredditUrl } = postSlice.actions 
 export const getSubredditUrl = state => state.posts.subredditUrl
+// export const getAllComments = state => state.posts.map(post => post.comments)
 export const getAllPosts = state => state.posts.posts
 export const getPostsStatus = state => state.posts.status
 export const getPostsError = state => state.posts.error 
