@@ -8,7 +8,7 @@ export const fetchSubreddits = createAsyncThunk('subreddits/fetchSubreddits', as
         const response = await fetch(`${API_ROOT}/subreddits.json`)
         .then(response => response.json());
         // console.log(response.data.children)
-        return response.data.children.map(subreddit => subreddit.data);
+        return response.data.children.map(subreddit => subreddit.data);  
     } catch (error) {
       return error.message
     }
@@ -18,6 +18,7 @@ const initialState = {
     subreddits: [],
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
     error: null,
+    searchTerm: '',
 }
 
 export const subredditsSlice = createSlice({
@@ -27,10 +28,6 @@ export const subredditsSlice = createSlice({
         setSearchTerm: (state, action) => {
             state.searchTerm = action.payload
         },
-        getSubredditUrl: (state, action) => {
-            state.subredditUrl = action.payload;
-            state.searchTerm = ''
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -49,6 +46,7 @@ export const subredditsSlice = createSlice({
     }
 })
 
+export const {setSearchTerm} = subredditsSlice.actions
 export const getAllSubredits = state => state.subreddits.subreddits
 export const getSubreditsStatus = state => state.subreddits.status
 export const getSubreditsError = state => state.subreddits.error

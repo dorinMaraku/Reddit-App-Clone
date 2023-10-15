@@ -1,19 +1,34 @@
 import {BiSolidUpArrow, BiSolidDownArrow, BiComment, BiShareAlt, BiSave, BiDotsHorizontalRounded} from 'react-icons/bi'
-
-// import {TfiComment} from 'react-icons/tfi'
 import './PostItem.css'
-import {useDispatch, useSelector} from 'react-redux'
+import PostComment from './postComments/PostComment'
 import moment from 'moment'
-// import { increment, decrement } from '../../../../features/counter/counterSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import { useEffect } from 'react'
+import {setCommentsTogle, fetchComments } from '../../../../features/posts/postsSlice'
 
-// image = preview.images[0].resolutions[0].url
+
 const PostItem = (props) => {
-    const {score,url, permalink, thumbnail, title, author, subreddit, num_comments, created_utc} = props.post
-
+    const {score, url, id, permalink, title, author, subreddit, num_comments, created_utc, showingComments, status, comments} = props.post
     const timeAgo = moment.unix(created_utc).fromNow()
 
     const dispatch = useDispatch();
-    // console.log(props.post) 
+
+    const handleClick = () => {
+        dispatch(setCommentsTogle(id))
+        dispatch(fetchComments(permalink))
+    }
+
+    let renderComments; 
+    if (status === 'loading') {
+        renderComments = <p>Loading...</p>
+    } else if (status === 'succeeded') {
+        renderComments = comments.map(comment => <PostComment key={comment.id} comment={comment}/>)
+    } else if (status === 'failed') {
+        renderComments = <p>{error}</p>
+    }
+
+    // console.log(renderComments)
+    console.log(props.post) 
   return (
     <div className='post'>
         <div className='post--left'>
@@ -32,11 +47,13 @@ const PostItem = (props) => {
             <h3><a href={`/r/${subreddit}/${title}`}>{title}</a></h3>
             <img src={url} alt={''} />
             <div className='post--right--bottom'>
-                <p className='post--bottom--actions'><BiComment />{num_comments} Comments</p>
+                <p className='post--bottom--actions'
+                    onClick={handleClick}><BiComment />{num_comments} Comments</p>
                 <p className='post--bottom--actions'><BiShareAlt />Share</p>
                 <p className='post--bottom--actions'><BiSave /> Save</p>
                 <p className='post--bottom--actions'><BiDotsHorizontalRounded /></p>
             </div>
+            {showingComments && renderComments}
         </div>
     </div>
   )

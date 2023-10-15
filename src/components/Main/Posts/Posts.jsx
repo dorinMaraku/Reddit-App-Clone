@@ -1,7 +1,7 @@
 import './Posts.css'
 import PostItem from './postitem/PostItem'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllPosts, getPostsStatus, getPostsError, fetchPosts } from '../../../features/posts/postsSlice'
+import { getAllPosts, getPostsStatus, getPostsError, fetchPosts, getSubredditUrl } from '../../../features/posts/postsSlice'
 import { useEffect } from 'react'
  
 
@@ -10,12 +10,14 @@ const Posts = () => {
     const posts = useSelector(getAllPosts)
     const postsStatus = useSelector(getPostsStatus)
     const error = useSelector(getPostsError)
+    const selectedSubredditUrl = useSelector(getSubredditUrl)
+    
     
     useEffect(() => {
       if (postsStatus === 'idle') {
-        dispatch(fetchPosts(window.location.pathname))
+        dispatch(fetchPosts(selectedSubredditUrl))
       }
-    },[dispatch, postsStatus])
+    },[dispatch, postsStatus, selectedSubredditUrl])
     // console.log(posts)
 
     let renderedPosts;
