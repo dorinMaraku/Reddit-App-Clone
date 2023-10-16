@@ -26,7 +26,7 @@ const Posts = () => {
     } else if (postsStatus === 'succeeded') {
       renderedPosts = posts.map((post, index) => {
         return (
-          <PostItem key={post.id} post={post} index={index}/>
+          <PostItem key={post.id} post={post}/>
         )
       })
     } else if (postsStatus === 'failed') {

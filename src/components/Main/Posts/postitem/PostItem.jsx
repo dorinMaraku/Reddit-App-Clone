@@ -10,28 +10,20 @@ import {setCommentsTogle, fetchComments } from '../../../../features/posts/posts
 
 const PostItem = (props) => {
     const {score, url, id, permalink, title, author, subreddit, num_comments, created_utc, selftext, showingComments, status, comments, errorComments} = props.post
-    const {index } = props.index
     const timeAgo = moment.unix(created_utc).fromNow()
 
     const dispatch = useDispatch();
 
     const handleClick = () => {
         dispatch(setCommentsTogle(id))
-        dispatch(fetchComments(permalink))
+        dispatch(fetchComments({permalink, id}))
     }
 
     let renderComments; 
     if (status === 'loading') {
         renderComments = <p>Loading...</p>
     } else if (status === 'succeeded' && comments.length > 0) {
-        renderComments = comments.map(comment => {
-            return (
-                <div className='comments--block'>
-                    <p className='selftext'>{selftext}</p>
-                    <PostComment key={comment.id} comment={comment}/>
-                </div>
-            )
-        })
+        renderComments = comments.map(comment => <PostComment key={comment.id} comment={comment}/>)
     } else if (status === 'succeeded' && comments.length === 0) {
         renderComments = <p className='no--comments'>There are no comments for this post</p>
     } else if (status === 'failed') {
@@ -45,7 +37,7 @@ const PostItem = (props) => {
     <div className='post'>
         <div className='post--left'>
             <BiSolidUpArrow className='arrow arrow-up'/>
-            <p>{score}</p>
+            <p className='score'>{score}</p>
             <BiSolidDownArrow className='arrow arrow-down' />
         </div>
         <div className='post--right'>
@@ -70,6 +62,7 @@ const PostItem = (props) => {
                         onClick={() => dispatch(setCommentsTogle(id))}
                     >Close X</button>}
             </div>
+            {showingComments && <p className='selftext'>{selftext}</p>}
             {showingComments && renderComments}
         </div>
     </div>
