@@ -19,7 +19,7 @@
 }
 
 .post--left{
-    width: 50px;
+    width: 3.25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,11 +29,25 @@
 }
 .post--left:hover{
     background-color: var(--lightAsh);
+    padding: .25rem 0;
+}
+
+.post--left > .score:hover {
+    color: green;
+    font-weight: 500;
 }
 
 .post--left > .arrow {
     font-size: large;
-    color: var(--darkGrey);
+    color: var(--fontGrey);
+}
+
+.post--left > .arrow-up:hover {
+    color: var(--orange);
+}
+
+.post--left > .arrow-down:hover {
+    color: var(--blue);
 }
 
 

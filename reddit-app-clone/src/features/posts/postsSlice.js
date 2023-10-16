@@ -24,7 +24,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditU
     }
 })
 
-export const fetchComments = createAsyncThunk('posts/fetchComments', async (permalink) => {
+export const fetchComments = createAsyncThunk('posts/fetchComments', async ({permalink, id}) => {
     try {
         const response = await fetch(`${API_ROOT}${permalink}.json`)
         .then(response => response.json())
@@ -74,28 +74,28 @@ export const postSlice = createSlice({
         })
         .addCase(fetchComments.pending, (state, action) => {
             state.posts.filter((post) => {
-                if(!post.showingComments) {
-                    return
-                } else {
-                    post.status = 'loading';
-                    // console.log(post.showingComments, post.status, 'post is loading')
-                }
+                if(!post.showingComments) return 
+                
+                if (post.id === action.meta.arg.id) { 
+                    post.status = 'loading'
+                };
+                // console.log(post.showingComments, post.status, 'post is loading', action.meta.arg.id, action)
             })
         })
         .addCase(fetchComments.fulfilled, (state, action) => {
             state.posts.filter(post => {
-                if(!post.showingComments) {
-                    return
-                } else {
+                if(!post.showingComments) return;
+                if (post.id === action.meta.arg.id){
                     post.status = 'succeeded';
                     post.comments = action.payload
                 }
-                // console.log(post.comments, post.status)
+                // console.log(post.comments, post.status, action.payload)
             })
         })
         .addCase(fetchComments.rejected, (state, action) => {
             state.posts.filter(post => {
-                if (post.showingComments) {
+                if (!post.showingComments) return
+                if (post.id === action.meta.arg.id) {
                     post.status = 'failed';
                     post.errorComments = action.error.message;
                 }
@@ -107,7 +107,6 @@ export const postSlice = createSlice({
 
 export const { setCommentsTogle, setSubredditUrl } = postSlice.actions 
 export const getSubredditUrl = state => state.posts.subredditUrl
-// export const getAllComments = state => state.posts.map(post => post.comments)
 export const getAllPosts = state => state.posts.posts
 export const getPostsStatus = state => state.posts.status
 export const getPostsError = state => state.posts.error 
