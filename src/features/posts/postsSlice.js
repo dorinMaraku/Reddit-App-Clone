@@ -73,7 +73,7 @@ export const postSlice = createSlice({
             state.error = action.error.message
         })
         .addCase(fetchComments.pending, (state, action) => {
-            state.posts.filter(post => {
+            state.posts.filter((post) => {
                 if(!post.showingComments) {
                     return
                 } else {

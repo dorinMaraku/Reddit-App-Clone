@@ -1,14 +1,16 @@
 import {BiSolidUpArrow, BiSolidDownArrow, BiComment, BiShareAlt, BiSave, BiDotsHorizontalRounded} from 'react-icons/bi'
 import './PostItem.css'
-import PostComment from './postComments/PostComment'
+import PostComment from './postComment/PostComment'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { useEffect } from 'react'
 import {setCommentsTogle, fetchComments } from '../../../../features/posts/postsSlice'
 
 
 const PostItem = (props) => {
-    const {score, url, id, permalink, title, author, subreddit, num_comments, created_utc, showingComments, status, comments} = props.post
+    const {score, url, id, permalink, title, author, subreddit, num_comments, created_utc, selftext, showingComments, status, comments, errorComments} = props.post
+    const {index } = props.index
     const timeAgo = moment.unix(created_utc).fromNow()
 
     const dispatch = useDispatch();
@@ -21,14 +23,24 @@ const PostItem = (props) => {
     let renderComments; 
     if (status === 'loading') {
         renderComments = <p>Loading...</p>
-    } else if (status === 'succeeded') {
-        renderComments = comments.map(comment => <PostComment key={comment.id} comment={comment}/>)
+    } else if (status === 'succeeded' && comments.length > 0) {
+        renderComments = comments.map(comment => {
+            return (
+                <div className='comments--block'>
+                    <p className='selftext'>{selftext}</p>
+                    <PostComment key={comment.id} comment={comment}/>
+                </div>
+            )
+        })
+    } else if (status === 'succeeded' && comments.length === 0) {
+        renderComments = <p className='no--comments'>There are no comments for this post</p>
     } else if (status === 'failed') {
-        renderComments = <p>{error}</p>
+        renderComments = <p className='comments--error'>Cannot retrieve comments from this post.
+            <br/>
+            Error: {errorComments}</p>
     }
-
     // console.log(renderComments)
-    console.log(props.post) 
+    // console.log(props.post) 
   return (
     <div className='post'>
         <div className='post--left'>
@@ -40,11 +52,11 @@ const PostItem = (props) => {
             <div className='post--info'>  
                 <div className='subreddit--info'>
                     <img src={subreddit}/>
-                    <a href={`/r/${subreddit}`}>{subreddit}</a>
+                    <Link to={`/r/${subreddit}`}>{subreddit}</Link>
                 </div>
-                <p> ~ Posted by <a href={`/u/${author}`}>{author}</a> {timeAgo}</p>
+                <p> ~ Posted by <Link to={`/u/${author}`}>{author}</Link> {timeAgo}</p>
             </div>
-            <h3><a href={`/r/${subreddit}/${title}`}>{title}</a></h3>
+            <h3><Link to={`/r/${subreddit}/${title}`}>{title}</Link></h3> 
             <img src={url} alt={''} />
             <div className='post--right--bottom'>
                 <p className='post--bottom--actions'
@@ -52,6 +64,11 @@ const PostItem = (props) => {
                 <p className='post--bottom--actions'><BiShareAlt />Share</p>
                 <p className='post--bottom--actions'><BiSave /> Save</p>
                 <p className='post--bottom--actions'><BiDotsHorizontalRounded /></p>
+                {showingComments && 
+                    <button 
+                        className='comments--toggle--button' 
+                        onClick={() => dispatch(setCommentsTogle(id))}
+                    >Close X</button>}
             </div>
             {showingComments && renderComments}
         </div>

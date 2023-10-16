@@ -113,6 +113,19 @@
     font-weight: 500;
 }
 
+.comments--toggle--button {
+    margin-left: auto;
+    background-color: white;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 5px;
+    padding: 0 1rem;
+}
+
+.comments--toggle--button:hover {
+    background-color: var(--blue);
+    color: white;
+}
 
 .post--right > * {
     margin-bottom: 0.25rem;
