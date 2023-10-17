@@ -9,8 +9,7 @@
     width: fit-content;
     background-color: white;
     box-shadow: 0px 0px 5px px var(--lightGrey);
-    padding-left: 2rem;
-    border-left: 2px solid var(--lightGrey);
+    padding-inline: 2rem;
 }
 
 .comment--header {
@@ -31,9 +30,18 @@
     border: 2px solid var(--blue);
 }
 
+.comment--header > p {
+    font-size: 0.75rem;
+}
+
 .comment--header > p > a {
-    font-weight: 500;
+    font-weight: bold;
     text-decoration: none;
+    color: var(--black);
+}
+
+.comment--header > p > a:hover {
+    text-decoration: underline;
     color: var(--black);
 }
 
@@ -43,12 +51,19 @@
     margin: 0.25rem 0;
 }
 
+.comment--body > p {
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: justify;
+    margin: 0.25rem 0;
+}
+
 .comment--footer {
     display: flex;
     align-items: center;
     background-color: var(--lightAsh);
     margin: 0.5rem 0;
-    padding: 0.25rem 0;
+    padding: .25rem 0 .25rem .25rem;
     gap: 1rem;
 }
 
@@ -81,7 +96,7 @@
 }
 
 .comment--footer--actions {
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .comment--footer--actions:hover {
@@ -92,4 +107,9 @@
     font-size: 1rem;
 }
 
-
+.line > hr {
+    transform: rotate(90deg);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+}
