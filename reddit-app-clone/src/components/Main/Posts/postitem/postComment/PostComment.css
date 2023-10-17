@@ -1,8 +1,16 @@
+.comment * {
+    transition: all ease-in-out 0.3s; 
+}
+
 .comment {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: 0.25rem 0;
+    justify-content: baseline;
+    width: fit-content;
+    background-color: white;
+    box-shadow: 0px 0px 5px px var(--lightGrey);
+    padding-left: 2rem;
+    border-left: 2px solid var(--lightGrey);
 }
 
 .comment--header {
@@ -11,6 +19,9 @@
     align-items: center;
     margin: 0.25rem 0;
     gap: 0.25rem;
+    position: relative;
+    left: -1.75rem;
+    top: -0.25rem
 }
 
 .comment--header > img {
@@ -20,8 +31,10 @@
     border: 2px solid var(--blue);
 }
 
-.comment--header > p > span {
-    color: var(--fontGrey);
+.comment--header > p > a {
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--black);
 }
 
 .comment--body {
@@ -48,6 +61,18 @@
 .comment--footer--left > .arrow {
     color: var(--fontGrey);
 }
+.score:hover {
+    color: green;
+    font-weight: 500;
+}
+
+.arrow-up:hover {
+    color: var(--orange);
+}
+
+.arrow-down:hover {
+    color: var(--blue);
+}
 
 .comment--footer--right {
     display: flex;
@@ -56,10 +81,15 @@
 }
 
 .comment--footer--actions {
-    font-size: medium;
+    font-size: 2rem;
 }
+
 .comment--footer--actions:hover {
     color: var(--black)
+}
+
+.icon {
+    font-size: 1rem;
 }
 
 

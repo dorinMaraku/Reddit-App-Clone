@@ -34,35 +34,40 @@ const PostItem = (props) => {
     // console.log(renderComments)
     // console.log(props.post) 
   return (
-    <div className='post'>
-        <div className='post--left'>
-            <BiSolidUpArrow className='arrow arrow-up'/>
-            <p className='score'>{score}</p>
-            <BiSolidDownArrow className='arrow arrow-down' />
-        </div>
-        <div className='post--right'>
-            <div className='post--info'>  
-                <div className='subreddit--info'>
-                    <img src={subreddit}/>
-                    <Link to={`/r/${subreddit}`}>{subreddit}</Link>
-                </div>
-                <p> ~ Posted by <Link to={`/u/${author}`}>{author}</Link> {timeAgo}</p>
+    <div className='post--with--comments'>
+        <div className='post'>
+            <div className='post--left'>
+                <BiSolidUpArrow className='arrow arrow-up'/>
+                <p className='score'>{score}</p>
+                <BiSolidDownArrow className='arrow arrow-down' />
             </div>
-            <h3><Link to={`/r/${subreddit}/${title}`}>{title}</Link></h3> 
-            <img src={url} alt={''} />
-            <div className='post--right--bottom'>
-                <p className='post--bottom--actions'
-                    onClick={handleClick}><BiComment />{num_comments} Comments</p>
-                <p className='post--bottom--actions'><BiShareAlt />Share</p>
-                <p className='post--bottom--actions'><BiSave /> Save</p>
-                <p className='post--bottom--actions'><BiDotsHorizontalRounded /></p>
-                {showingComments && 
-                    <button 
+            <div className='post--right'>
+                <div className='post--info'>  
+                    <div className='subreddit--info'>
+                        <img src={subreddit}/>
+                        <p className='subreddit--link'><Link to={`/r/${subreddit}`}>{subreddit}</Link></p>
+                    </div>
+                    <p className='author--info'> ~ Posted by <Link to={`/u/${author}`}>{author}</Link> <span className='time--ago'>{timeAgo}</span></p>
+                </div>
+                <h3><Link to={`/r/${subreddit}/${title}`}>{title}</Link></h3> 
+                <img src={url} alt={''} />
+                {showingComments && <p className='subreddit--selftext'>{selftext}</p>}
+                <div className='post--right--bottom'>
+                    <p className='post--bottom--actions'
+                        onClick={handleClick}
+                    ><BiComment className='icon'/>{num_comments} Comments</p>
+                    <p className='post--bottom--actions'><BiShareAlt className='icon'/>Share</p>
+                    <p className='post--bottom--actions'><BiSave className='icon'/> Save</p>
+                    <p className='post--bottom--actions'><BiDotsHorizontalRounded className='icon'/></p>
+                    {showingComments && 
+                        <button 
                         className='comments--toggle--button' 
                         onClick={() => dispatch(setCommentsTogle(id))}
-                    >Close X</button>}
+                        >Close X</button>}
+                </div>
             </div>
-            {showingComments && <p className='selftext'>{selftext}</p>}
+        </div>
+        <div>
             {showingComments && renderComments}
         </div>
     </div>

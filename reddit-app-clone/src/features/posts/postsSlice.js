@@ -75,7 +75,6 @@ export const postSlice = createSlice({
         .addCase(fetchComments.pending, (state, action) => {
             state.posts.filter((post) => {
                 if(!post.showingComments) return 
-                
                 if (post.id === action.meta.arg.id) { 
                     post.status = 'loading'
                 };
@@ -100,6 +99,7 @@ export const postSlice = createSlice({
                     post.errorComments = action.error.message;
                 }
                 // console.log(post.errorComments, post.status, 'smth went wrong')
+                console.log(action)
             })
         })
     }
