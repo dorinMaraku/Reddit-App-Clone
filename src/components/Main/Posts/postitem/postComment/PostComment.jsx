@@ -1,21 +1,22 @@
 import React from 'react'
 import './PostComment.css'
+import { Link } from 'react-router-dom'
 import {BiSolidUpArrow, BiSolidDownArrow, BiReply, BiShareAlt, BiDotsHorizontalRounded} from 'react-icons/bi'
 import moment from 'moment'
 
 const PostComment = ({comment}) => {
     // console.log(comment)
     const timeAgo = moment.unix(comment.created_utc).fromNow()
-    let commentReplies
+    let showCommentReplies
     if (comment.replies) {
-        commentReplies = comment.replies?.data.children.map(replies => replies.data)
-        // console.log(commentReplies)
+        const commentReplies = comment.replies?.data.children.map(replies => replies.data)
+        showCommentReplies = commentReplies.map(comment => <PostComment key={comment.id} comment={comment}/>)
     }
   return (
     <div className='comment'>
         <div className='comment--header'>
             <img src={comment.link_id} />
-            <p><span>{comment.author}</span> ~ {timeAgo} </p>
+            <p><Link>{comment.author}</Link> ~ {timeAgo} </p>
         </div>
         <div className='comment--body'>
             <p>{comment.body}</p>
@@ -33,7 +34,7 @@ const PostComment = ({comment}) => {
             </div>
         </div>
         <div>
-            {comment.replies && commentReplies.body}
+            <p style={{marginLeft: '1.5rem'}}> {showCommentReplies}</p>
         </div>
     </div>
   )

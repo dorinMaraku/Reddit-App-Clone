@@ -1,11 +1,21 @@
-.post{
+.post--with--comments {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     background-color: white;
     box-shadow: -1px 0px 5px 5px var(--lightGrey);
     border-radius: 5px;
     margin: 0.75rem 0;
-    padding: 0.75rem;
+}
+
+.post * {
+    transition: all ease-in-out 0.2s;
+}
+
+.post{
+    display: flex;
+    align-items: flex-start;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
 }
 
 .post a {
@@ -13,9 +23,13 @@
     text-decoration: none;
     color: var(--black);
 }
+.post a:hover{
+    text-decoration: underline;
+}
+
 .post p {
     color: var(--darkGrey);
-    font-size: smaller;
+    font-size: 1rem;
 }
 
 .post--left{
@@ -25,11 +39,10 @@
     justify-content: center;
     align-items: center;
     gap: 0.25rem;
-
 }
+
 .post--left:hover{
     background-color: var(--lightAsh);
-    padding: .25rem 0;
 }
 
 .post--left > .score:hover {
@@ -50,51 +63,31 @@
     color: var(--blue);
 }
 
-
 .post--right{
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 1rem;
+    padding-right: 1.5rem;
     gap: 0.5rem;
-}
-
-.post--right > img {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.post--right{
-    display: flex;
-    flex-direction: column;
-}
-
-.post--right > h3 a {
-    font-weight: 500;
-    font-size: large;
-    padding: 1rem 0; 
-    line-height: 1.2;
-    letter-spacing: normal;
 }
 
 .post--right > .post--info {
     display: flex;
     align-items: center;
+    justify-content:last baseline;
     font-size: smaller;
     gap: 0.5rem;
     color: var(--darkGrey);
 }
 
-.post--right > .post--info > .subreddit--info {
+.post--info > .subreddit--info {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: smaller;
     color: var(--darkGrey);
-}
-
-.subreddit--info {
     gap: 0.25rem;
 }
 
@@ -105,26 +98,64 @@
     border: 2px solid var(--blue);
 }
 
-.post--info > p {
-    gap: 0.25rem;
+.subreddit--info > .subreddit--link {
+    font-size: .75rem;
+}
+
+.post--info > .author--info {
+    font-size: 0.75rem;
+}
+
+.author--info > span {
+    margin-left: 0.25rem;
+}
+
+.post--right > h3 {
+    font-size: 1.25rem;
+    margin-top: .75rem; 
+}
+
+.post--right > h3 a {
+    font-weight: 500;
+}
+
+.post--right > h3 a:hover {
+    text-decoration: none;
+}
+
+.post--right > img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.post--right > .subreddit--selftext {
+    color: var(--fontGrey);
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-align: justify;
 }
 
 .post--right--bottom{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
-.post--bottom--actions {
-    gap: 0.25rem;
+.post--right--bottom > .post--bottom--actions {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    gap: 0.25rem;
 }
+
 .post--bottom--actions:hover {
     color: var(--black);
     font-weight: 500;
+}
+
+.post--bottom--actions > .icon {
+    font-size: 1.25rem;
 }
 
 .comments--toggle--button {
@@ -141,10 +172,3 @@
     color: white;
 }
 
-.post--right > * {
-    margin-bottom: 0.25rem;
-}
-
-.post--info {
-    margin-top: 0.25rem;
-}
