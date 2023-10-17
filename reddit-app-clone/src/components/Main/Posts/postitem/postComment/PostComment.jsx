@@ -12,11 +12,14 @@ const PostComment = ({comment}) => {
         const commentReplies = comment.replies?.data.children.map(replies => replies.data)
         showCommentReplies = commentReplies.map(comment => <PostComment key={comment.id} comment={comment}/>)
     }
-  return (
-    <div className='comment'>
+    return (
+    <article className='comment'>
         <div className='comment--header'>
             <img src={comment.link_id} />
             <p><Link>{comment.author}</Link> ~ {timeAgo} </p>
+        </div>
+        <div className='line'>
+             <hr />
         </div>
         <div className='comment--body'>
             <p>{comment.body}</p>
@@ -33,10 +36,11 @@ const PostComment = ({comment}) => {
                 <p className='comment--footer--actions'><BiDotsHorizontalRounded className='icon'/></p>
             </div>
         </div>
+
         <div>
-            <p style={{marginLeft: '1.5rem'}}> {showCommentReplies}</p>
+            <p> {showCommentReplies}</p>
         </div>
-    </div>
+    </article>
   )
 }
 
