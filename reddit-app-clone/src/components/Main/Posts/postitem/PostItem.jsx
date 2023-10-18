@@ -63,7 +63,7 @@ const PostItem = (props) => {
                         <button 
                         className='comments--toggle--button' 
                         onClick={() => dispatch(setCommentsTogle(id))}
-                        >Close X</button>}
+                        >X Close</button>}
                 </div>
             </div>
         </div>

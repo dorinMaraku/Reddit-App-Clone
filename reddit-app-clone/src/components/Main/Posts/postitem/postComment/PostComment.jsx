@@ -18,27 +18,23 @@ const PostComment = ({comment}) => {
             <img src={comment.link_id} />
             <p><Link>{comment.author}</Link> ~ {timeAgo} </p>
         </div>
-        <div className='line'>
-             <hr />
-        </div>
         <div className='comment--body'>
             <p>{comment.body}</p>
         </div>
         <div className='comment--footer'>
             <div className='comment--footer--left'>
-                <BiSolidUpArrow className='icon arrow arrow-up'/>
-                <p>{comment.score}</p>
-                <BiSolidDownArrow className='icon arrow arrow-down' />
+                <BiSolidUpArrow className='arrow arrow-up'/>
+                <p className='score'>{comment.score}</p>
+                <BiSolidDownArrow className='arrow arrow-down' />
             </div>
             <div className='comment--footer--right'>
-                <p className='comment--footer--actions'><BiReply className='icon'/>Reply</p>
-                <p className='comment--footer--actions'><BiShareAlt className='icon'/>Share</p>
-                <p className='comment--footer--actions'><BiDotsHorizontalRounded className='icon'/></p>
+                <p className='comment--footer--actions'><BiReply className='action--icon action--icon--one'/>Reply</p>
+                <p className='comment--footer--actions'><BiShareAlt className='action--icon action--icon--two'/>Share</p>
+                <p className='comment--footer--actions'><BiDotsHorizontalRounded className='action--icon action--icon--three'/></p>
             </div>
         </div>
-
         <div>
-            <p> {showCommentReplies}</p>
+            {showCommentReplies}
         </div>
     </article>
   )
