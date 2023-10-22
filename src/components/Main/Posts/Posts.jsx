@@ -3,6 +3,7 @@ import PostItem from './postitem/PostItem'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllPosts, getPostsStatus, getPostsError, fetchPosts, getSubredditUrl } from '../../../features/posts/postsSlice'
 import { useEffect } from 'react'
+// import { getUserInfo, data } from '../../../features/authorization/authorization'
  
 
 const Posts = () => {

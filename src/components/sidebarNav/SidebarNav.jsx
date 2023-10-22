@@ -4,7 +4,7 @@ import './SidebarNav.css'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllSubredits, getSubreditsStatus, getSubreditsError, fetchSubreddits } from '../../features/subreddits/subredditsSlice'
-import { setSubredditUrl } from '../../features/posts/postsSlice'
+import { setSubredditUrl, fetchPosts } from '../../features/posts/postsSlice'
 import { useState, useEffect } from 'react'
 
 
@@ -22,6 +22,7 @@ const SidebarNav = () => {
     }, [subredditsStatus, dispatch])
     
     const handleChange = (e) => {
+        e.preventDefault()
         setSearchTerm(e.target.value)
     }
 
@@ -54,23 +55,29 @@ const SidebarNav = () => {
         renderedSubreddits = <p>{error}</p>
     }
     
-    const menus = [
+    const sideMenus = [
         {
-            to: '/r/popular',
+            to: '/r/popular/',
             text: 'Popular' 
         },
         {
-            to: '/r/all',
+            to: '/r/all/',
             text: 'All' 
         },
         {
-            to: '/r/random',
+            to: '/r/random/',
             text: 'Random' 
         }
     ]
-    const renderedMenu = menus.map(menu => {
+    const renderedMenu = sideMenus.map(menu => {
         return (
-        <li key={menu.to}><a href={menu.to}>{menu.text}</a></li>
+        <li 
+            key={menu.to}
+            onClick={() => dispatch(fetchPosts(menu.to))}   
+            className='sidenav--menu' 
+        >
+            <Link to={menu.to}>{menu.text}</Link>
+        </li>
         )
     })
 

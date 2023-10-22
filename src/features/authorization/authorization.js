@@ -26,7 +26,7 @@ export const getToken = async () => {
   params.append('grant_type', 'authorization_code');
   params.append('redirect_uri', URI);
 
-  //console.log(authCode);
+  console.log(authCode);
   try {
     let response = await axios.post('https://www.reddit.com/api/v1/access_token', 
     params.toString(), 
@@ -109,6 +109,7 @@ const refreshTokenAngGetNewAccessToken = async () => {
   }
 }
 
+export let data
 //get user info
 export const getUserInfo = async () => {
   getAuthCode()
@@ -122,7 +123,7 @@ export const getUserInfo = async () => {
       {headers: {'Authorization': 'bearer ' + accessToken}})
     console.log(response)
     if(response.status === 200) {
-      const data = await response.data
+      data = await response.data
       console.log(data)
     } else if (response.status === 401) {
       console.log('Recieved 401 error. Retrying with a refreshed token')

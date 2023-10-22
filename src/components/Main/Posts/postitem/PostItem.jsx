@@ -1,4 +1,6 @@
-import {BiSolidUpArrow, BiSolidDownArrow, BiComment, BiShareAlt, BiSave, BiDotsHorizontalRounded} from 'react-icons/bi'
+import {BiComment, BiDotsHorizontalRounded} from 'react-icons/bi'
+import {PiArrowFatUpLight, PiArrowFatDownLight, PiShare} from 'react-icons/pi'
+import {MdOutlineSaveAlt} from 'react-icons/md'
 import './PostItem.css'
 import PostComment from './postComment/PostComment'
 import moment from 'moment'
@@ -21,7 +23,7 @@ const PostItem = (props) => {
 
     let renderComments; 
     if (status === 'loading') {
-        renderComments = <p>Loading...</p>
+        renderComments = <p style={{textAlign: 'center', marginTop: '1rem'}}>Loading...</p>
     } else if (status === 'succeeded' && comments.length > 0) {
         renderComments = comments.map(comment => <PostComment key={comment.id} comment={comment}/>)
     } else if (status === 'succeeded' && comments.length === 0) {
@@ -37,9 +39,9 @@ const PostItem = (props) => {
     <div className='post--with--comments'>
         <div className='post'>
             <div className='post--left'>
-                <BiSolidUpArrow className='arrow arrow-up'/>
-                <p className='score'>{score}</p>
-                <BiSolidDownArrow className='arrow arrow-down' />
+                <PiArrowFatUpLight className='arrow arrow-up'/>
+                <p className='score'>{score <= 999 ? score : `${(score / 1000).toFixed(1)}k`}</p>
+                <PiArrowFatDownLight className='arrow arrow-down' />
             </div>
             <div className='post--right'>
                 <div className='post--info'>  
@@ -56,8 +58,8 @@ const PostItem = (props) => {
                     <p className='post--bottom--actions'
                         onClick={handleClick}
                     ><BiComment className='icon'/>{num_comments} Comments</p>
-                    <p className='post--bottom--actions'><BiShareAlt className='icon'/>Share</p>
-                    <p className='post--bottom--actions'><BiSave className='icon'/> Save</p>
+                    <p className='post--bottom--actions'><PiShare className='icon'/>Share</p>
+                    <p className='post--bottom--actions'><MdOutlineSaveAlt className='icon'/> Save</p>
                     <p className='post--bottom--actions'><BiDotsHorizontalRounded className='icon'/></p>
                     {showingComments && 
                         <button 
