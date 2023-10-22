@@ -1,6 +1,6 @@
 .main{
-    flex: 3;
-    background-color: var(--lightAsh);
-    padding: 10px 40px;
+    display: flex;
+    flex-direction: column;
+    padding: .625rem 2.5rem;
     align-items: center;
 }

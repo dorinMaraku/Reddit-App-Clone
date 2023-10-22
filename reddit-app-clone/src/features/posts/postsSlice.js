@@ -10,7 +10,7 @@ const initialState = {
     status: 'idle', // 'loading' | 'succeeded' | 'failed'
     error: null,
     searchTerm: '',
-    subredditUrl: '/r/home',
+    subredditUrl: '/r/home/',
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (subredditUrl) => {
