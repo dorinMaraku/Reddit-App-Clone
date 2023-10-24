@@ -36,7 +36,7 @@ const PostItem = (props) => {
     // console.log(renderComments)
     // console.log(props.post) 
   return (
-    <div className='post--with--comments'>
+    <article className='post--with--comments'>
         <div className='post'>
             <div className='post--left'>
                 <PiArrowFatUpLight className='arrow arrow-up'/>
@@ -65,14 +65,14 @@ const PostItem = (props) => {
                         <button 
                         className='comments--toggle--button' 
                         onClick={() => dispatch(setCommentsTogle(id))}
-                        >X Close</button>}
+                        >Close</button>}
                 </div>
             </div>
         </div>
         <div>
             {showingComments && renderComments}
         </div>
-    </div>
+    </article>
   )
 }
 

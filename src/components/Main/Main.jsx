@@ -4,10 +4,10 @@ import Header from "./header/Header"
 
 const Main = () => {
   return (
-    <div className="main">
+    <main className="main">
         <Header />
         <Posts />
-    </div>
+    </main>
   )
 }
 
