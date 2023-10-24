@@ -18,6 +18,7 @@
 
   /* fonts */
   --jakFont: 'Plus Jakarta Sans', sans-serif;
+  --font: 'Helvetica Neue', helvetica, verdana, arial, sans-serif;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -68,8 +69,7 @@ table {
 
 .container{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: var(--lightAsh);
 }
 

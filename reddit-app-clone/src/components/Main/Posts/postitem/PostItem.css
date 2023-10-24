@@ -1,5 +1,6 @@
 .post--with--comments {
     display: flex;
+    flex: 1;
     flex-direction: column;
     background-color: white;
     box-shadow: -1px 0px 5px 5px var(--lightGrey);
@@ -115,6 +116,8 @@
 .post--right > h3 {
     font-size: 1.25rem;
     margin-top: .75rem; 
+    line-height: 1.2;
+    text-wrap: wrap;
 }
 
 .post--right > h3 a {
@@ -167,12 +170,13 @@
     margin-left: auto;
     background-color: white;
     color: var(--midGrey);
-    border: 1px solid var(--midGrey);
+    border: 1px solid var(--blue);
     border-radius: 5px;
     padding: .125rem .625rem;
     font-size: .875rem;
     font-weight: 500;
     color: var(--blue);
+    box-shadow: 1px 1px 4px 1px var(--blue);
 }
 
 .comments--toggle--button:hover {
