@@ -83,7 +83,8 @@ const SidebarNav = () => {
 
   return (
     <div className='sidenav'>
-        <div className='sidenav--logo'>
+        <div className='sidenav--logo'
+        onClick={() => dispatch(fetchPosts('/r/pics/'))}>
             <FaRedditAlien className='sidenav--reddit--icon'/>
             <h1 className='sidenav--logo--text' >reddit<span className='sidenav--span-text'>Clone</span></h1>
         </div>
