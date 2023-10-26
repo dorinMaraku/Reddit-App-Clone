@@ -5,8 +5,12 @@ import {PiArrowFatUpLight, PiArrowFatDownLight, PiShare} from 'react-icons/pi'
 import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import {VscReply} from 'react-icons/vsc'
 import moment from 'moment'
+import {postCountValueIncrease, postCountValueDecrease} from '../../../../../features/posts/postsSlice'
+import { useDispatch } from 'react-redux'
 
 const PostComment = ({comment}) => {
+    const dispatch = useDispatch()
+
     // console.log(comment)
     const timeAgo = moment.unix(comment.created_utc).fromNow()
     let showCommentReplies

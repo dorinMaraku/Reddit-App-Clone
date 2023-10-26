@@ -51,6 +51,20 @@ export const postSlice = createSlice({
                 }
                 // console.log(post.showingComments)
             })
+        },
+        postCountValueIncrease: (state, action) => {
+            state.posts.filter(post => {
+                if (post.id === action.payload) {
+                    post.score += 1
+                }
+            })
+        },
+        postCountValueDecrease: (state, action) => {
+            state.posts.filter(post => {
+                if (post.id === action.payload) {
+                    post.score -= 1
+                }
+            })
         }
     },
     extraReducers: (builder) => {
@@ -105,7 +119,7 @@ export const postSlice = createSlice({
     }
 })
 
-export const { setCommentsTogle, setSubredditUrl } = postSlice.actions 
+export const { setCommentsTogle, setSubredditUrl, postCountValueIncrease, postCountValueDecrease } = postSlice.actions 
 export const getSubredditUrl = state => state.posts.subredditUrl
 export const getAllPosts = state => state.posts.posts
 export const getPostsStatus = state => state.posts.status
