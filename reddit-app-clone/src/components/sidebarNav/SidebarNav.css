@@ -24,7 +24,7 @@
     padding: .25rem; 
     color: white;
     background-color: var(--orange);
-    box-shadow: -2px 0px 5px 5px var(--lightGrey);
+    box-shadow: -2px 0px 5px 5px var(--lightAsh);
 
 }
 .sidenav--logo > .sidenav--logo--text{  

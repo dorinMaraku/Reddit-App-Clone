@@ -7,7 +7,7 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { useEffect } from 'react'
-import {setCommentsTogle, fetchComments, postCountValueIncrease, postCountValueDecrease } from '../../../../features/posts/postsSlice'
+import {setCommentsTogle, fetchComments, postScoreValueIncrease, postScoreValueDecrease } from '../../../../features/posts/postsSlice'
 
 
 const PostItem = (props) => {
@@ -41,11 +41,11 @@ const PostItem = (props) => {
             <div className='post--left'>
                 <PiArrowFatUpLight 
                     className='arrow arrow-up'
-                    onClick={() => dispatch(postCountValueIncrease(id))}/>
+                    onClick={() => dispatch(postScoreValueIncrease(id))}/>
                 <p className='score'>{score <= 999 ? score : `${(score / 1000).toFixed(1)}k`}</p>
                 <PiArrowFatDownLight 
                     className='arrow arrow-down' 
-                    onClick={() => dispatch(postCountValueDecrease(id))}/>
+                    onClick={() => dispatch(postScoreValueDecrease(id))}/>
             </div>
             <div className='post--right'>
                 <div className='post--info'>  
