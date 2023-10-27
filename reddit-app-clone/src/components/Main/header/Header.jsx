@@ -41,7 +41,7 @@ const Header = () => {
         </div>
         <div className="header--right">
             <AiFillBell className='icon--bell'/>
-            <span className='message--counter'>{3}</span>
+            <span className='message--counter'>3</span>
             <RxAvatar className='user--img' />
             <p className='user--name'>{'DM Code'}</p>
             <RiArrowDropDownLine className='icon--dropdown'/>

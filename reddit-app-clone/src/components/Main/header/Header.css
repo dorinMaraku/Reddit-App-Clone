@@ -57,15 +57,17 @@
 }
 
 .header--right > .message--counter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
+    top: -.25rem;
     color: white;
     background-color: var(--orange);
     font-size: 8px;
     width: .625rem;
     height: .625rem;
     border-radius: 50%;
-    text-align: center;
-    align-self: center;
 }
 
 .header--right > .user--img {
